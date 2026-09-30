@@ -1,5 +1,7 @@
 # Valheim Native ARM64
 
+[Русский](README.md) | [English](README.en.md)
+
 Запуск модов Valheim нативно на Mac с Apple Silicon — **без Rosetta**.
 
 Два скрипта: поставить и играть. Если нужен полноценный мод-менеджер с браузером Thunderstore —
