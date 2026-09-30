@@ -82,6 +82,25 @@ The BepInEx core is built from the
 - Mods that ship their own native libraries for Windows or Linux will not work.
 - Diagnostic logs are written to `<Valheim directory>/BepInEx/LogOutput.log`.
 
+## Optional fallback for missing Apple libraries
+
+If native ARM64 Valheim reports `AppleCoreNativeMac` or `GameKitWrapper` errors,
+a separate preloader patcher is available. It is disabled by default. Close
+Valheim before enabling or removing it:
+
+```bash
+./apple-fallback.sh enable
+./apple-fallback.sh disable
+```
+
+For a non-default game directory, pass its path as the second argument. The
+patcher supports only validated Apple.Core and Apple.GameKit builds; unknown
+versions are skipped with a log message. It works around specific startup errors
+and does not implement all Apple SDK features.
+
+Source code, reproducible builds, tests, and limitations are covered in the
+[patcher documentation](patchers/AppleNativeFallback/README.md).
+
 ## Uninstalling
 
 ```bash
