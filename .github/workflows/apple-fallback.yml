@@ -1,0 +1,28 @@
+name: Apple native fallback
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Build and verify packaged binary
+        run: |
+          cp bin/BepInEx/patchers/AppleNativeFallback.sha256 /tmp/expected-apple-fallback.sha256
+          patchers/AppleNativeFallback/build.sh
+          cmp /tmp/expected-apple-fallback.sha256 bin/BepInEx/patchers/AppleNativeFallback.sha256
+      - name: Portable patch tests
+        run: dotnet run --project patchers/AppleNativeFallback/tests/Tests.csproj -c Release
+      - name: Native loader tests
+        run: patchers/AppleNativeFallback/tests/native-fixtures.sh
+      - name: Installer tests
+        run: patchers/AppleNativeFallback/tests/installer.sh
